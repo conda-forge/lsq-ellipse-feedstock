@@ -1,0 +1,44 @@
+schema_version: 1
+
+context:
+  name: lsq-ellipse
+  version: "2.2.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/lsq-ellipse-${{ version }}.tar.gz
+  sha256: a40860d1af348f9e71491cb1f5cd2b9ef99f22e54fc98e7fa801caf459bda7ba
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - numpy
+
+tests:
+  - python:
+      imports:
+        - ellipse
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Least squares fitting of Ellipses
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/bdhammel/least-squares-ellipse-fitting
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
